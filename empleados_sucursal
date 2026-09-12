@@ -1,0 +1,99 @@
+USE AkirasBoutiques;
+GO
+
+CREATE TABLE Sucursales (
+    Id_Sucursal INT PRIMARY KEY IDENTITY(1,1),
+    Nombre_Sucursal VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(150),
+    Telefono VARCHAR(20),
+    Id_Encargado INT NULL 
+);
+GO
+
+CREATE TABLE Empleados (
+    Id_Empleado INT PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    Puesto VARCHAR(50) NOT NULL,
+    Email VARCHAR(100),
+    Id_Sucursal INT NOT NULL,
+    FOREIGN KEY (Id_Sucursal) REFERENCES Sucursales(Id_Sucursal)
+);
+GO
+
+ALTER TABLE Sucursales
+ADD CONSTRAINT FK_Sucursal_Encargado 
+FOREIGN KEY (Id_Encargado) REFERENCES Empleados(Id_Empleado);
+GO
+
+INSERT INTO Sucursales (Nombre_Sucursal, Direccion, Telefono) VALUES
+('Sucursal Centro', 'Av. Hidalgo 101', '3311111111'),
+('Sucursal Plaza del Sol', 'Av. López Mateos 2405', '3322222222'),
+('Sucursal Andares', 'Blvd. Puerta de Hierro 4965', '3333333333'),
+('Sucursal Galerías', 'Av. Vallarta 5455', '3344444444'),
+('Sucursal Minerva', 'Av. Vallarta 2840', '3355555555'),
+('Sucursal Chapultepec', 'Av. Chapultepec 210', '3366666666'),
+('Sucursal Tlaquepaque', 'Calle Juárez 145', '3377777777'),
+('Sucursal Zapopan Centro', 'Av. Hidalgo 250', '3388888888');
+GO
+
+INSERT INTO Empleados (Nombre, Apellido, Puesto, Email, Id_Sucursal) VALUES
+-- Sucursal 1
+('Carlos', 'Gómez', 'Encargado', 'carlos.gomez@akira.com', 1),
+('Ana', 'Martínez', 'Cajera', 'ana.martinez@akira.com', 1),
+('Luis', 'Hernández', 'Vendedor', 'luis.hernandez@akira.com', 1),
+('Sofía', 'López', 'Vendedora', 'sofia.lopez@akira.com', 1),
+('Miguel', 'Pérez', 'Almacenista', 'miguel.perez@akira.com', 1),
+-- Sucursal 2
+('Laura', 'Sánchez', 'Encargado', 'laura.sanchez@akira.com', 2),
+('Jorge', 'Ramírez', 'Cajero', 'jorge.ramirez@akira.com', 2),
+('Fernanda', 'Torres', 'Vendedora', 'fernanda.torres@akira.com', 2),
+('Diego', 'Flores', 'Vendedor', 'diego.flores@akira.com', 2),
+('Mariana', 'Díaz', 'Almacenista', 'mariana.diaz@akira.com', 2),
+-- Sucursal 3
+('Roberto', 'Vázquez', 'Encargado', 'roberto.vazquez@akira.com', 3),
+('Elena', 'Castro', 'Cajera', 'elena.castro@akira.com', 3),
+('Gabriel', 'Morales', 'Vendedor', 'gabriel.morales@akira.com', 3),
+('Patricia', 'Ortiz', 'Vendedora', 'patricia.ortiz@akira.com', 3),
+('Ricardo', 'Gutiérrez', 'Almacenista', 'ricardo.gutierrez@akira.com', 3),
+-- Sucursal 4
+('Carmen', 'Ruiz', 'Encargado', 'carmen.ruiz@akira.com', 4),
+('Alejandro', 'Alvarez', 'Cajero', 'alejandro.alvarez@akira.com', 4),
+('Daniela', 'Mendoza', 'Vendedora', 'daniela.mendoza@akira.com', 4),
+('Manuel', 'Castillo', 'Vendedor', 'manuel.castillo@akira.com', 4),
+('Paola', 'Moreno', 'Almacenista', 'paola.moreno@akira.com', 4),
+-- Sucursal 5
+('Javier', 'Romero', 'Encargado', 'javier.romero@akira.com', 5),
+('Adriana', 'Navarro', 'Cajera', 'adriana.navarro@akira.com', 5),
+('Gonzalo', 'Rios', 'Vendedor', 'gonzalo.rios@akira.com', 5),
+('Natalia', 'Valdez', 'Vendedora', 'natalia.valdez@akira.com', 5),
+('Esteban', 'Sosa', 'Almacenista', 'esteban.sosa@akira.com', 5),
+-- Sucursal 6
+('Claudia', 'Vega', 'Encargado', 'claudia.vega@akira.com', 6),
+('Arturo', 'Delgado', 'Cajero', 'arturo.delgado@akira.com', 6),
+('Monika', 'Peña', 'Vendedora', 'monika.pena@akira.com', 6),
+('Hugo', 'Aguilar', 'Vendedor', 'hugo.aguilar@akira.com', 6),
+('Silvia', 'Campos', 'Almacenista', 'silvia.campos@akira.com', 6),
+-- Sucursal 7
+('Andrés', 'Sandoval', 'Encargado', 'andres.sandoval@akira.com', 7),
+('Teresa', 'Nava', 'Cajera', 'teresa.nava@akira.com', 7),
+('Raúl', 'Ibarra', 'Vendedor', 'raul.ibarra@akira.com', 7),
+('Veronica', 'Lara', 'Vendedora', 'veronica.lara@akira.com', 7),
+('Mario', 'Soto', 'Almacenista', 'mario.soto@akira.com', 7),
+-- Sucursal 8
+('Rosa', 'Figueroa', 'Encargado', 'rosa.figueroa@akira.com', 8),
+('Oscar', 'Luna', 'Cajero', 'oscar.luna@akira.com', 8),
+('Beatriz', 'Juárez', 'Vendedora', 'beatriz.juarez@akira.com', 8),
+('Francisco', 'Mora', 'Vendedor', 'francisco.mora@akira.com', 8),
+('Irene', 'Cabrera', 'Almacenista', 'irene.cabrera@akira.com', 8);
+GO
+
+UPDATE Sucursales SET Id_Encargado = 1 WHERE Id_Sucursal = 1;
+UPDATE Sucursales SET Id_Encargado = 6 WHERE Id_Sucursal = 2;
+UPDATE Sucursales SET Id_Encargado = 11 WHERE Id_Sucursal = 3;
+UPDATE Sucursales SET Id_Encargado = 16 WHERE Id_Sucursal = 4;
+UPDATE Sucursales SET Id_Encargado = 21 WHERE Id_Sucursal = 5;
+UPDATE Sucursales SET Id_Encargado = 26 WHERE Id_Sucursal = 6;
+UPDATE Sucursales SET Id_Encargado = 31 WHERE Id_Sucursal = 7;
+UPDATE Sucursales SET Id_Encargado = 36 WHERE Id_Sucursal = 8;
+GO
