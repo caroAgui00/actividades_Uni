@@ -1,0 +1,120 @@
+USE [AkirasBoutiques];
+GO
+
+SELECT DISTINCT c.id_cliente, c.nombre, c.apellido, f.fecha
+FROM dbo.cliente c
+INNER JOIN dbo.factura f ON c.id_cliente = f.id_cliente
+WHERE YEAR(f.fecha) = 2021;
+
+
+SELECT DISTINCT c.id_cliente, c.nombre, c.apellido, f.fecha
+FROM dbo.cliente c
+INNER JOIN dbo.factura f ON c.id_cliente = f.id_cliente
+WHERE YEAR(f.fecha) = 2022;
+
+
+SELECT DISTINCT c.id_cliente, c.nombre, c.apellido, f.fecha
+FROM dbo.cliente c
+INNER JOIN dbo.factura f ON c.id_cliente = f.id_cliente
+WHERE YEAR(f.fecha) = 2021 AND MONTH(f.fecha) = 12;
+
+
+SELECT 
+    c.nombre + ' ' + c.apellido AS Cliente,
+    f.id_factura,
+    f.fecha,
+    p.nombre AS Producto,
+    d.cantidad,
+    d.precio
+FROM dbo.cliente c
+INNER JOIN dbo.factura f ON c.id_cliente = f.id_cliente
+INNER JOIN dbo.detalle d ON f.id_detalle = d.id_detalle
+INNER JOIN dbo.producto p ON d.id_producto = p.id_producto
+WHERE (c.nombre = 'Valentina Anastasia' AND c.apellido LIKE 'Huerta%')
+   OR (c.nombre = 'Zayra Manuela' AND c.apellido LIKE 'Gómez%')
+   OR (c.nombre = 'Dante Eduardo' AND c.apellido LIKE 'Dolores%')
+   OR (c.nombre = 'Ana Maribel' AND c.apellido LIKE 'Cedillo%')
+   OR (c.nombre = 'Rodrigo Ismael' AND c.apellido LIKE 'Silva%');
+
+SELECT TOP 1 
+    CAST(p.nombre AS VARCHAR(100)) AS Producto, 
+    SUM(d.cantidad) AS Total_Vendido
+FROM dbo.detalle d
+INNER JOIN dbo.producto p ON d.id_producto = p.id_producto
+GROUP BY CAST(p.nombre AS VARCHAR(100))
+ORDER BY Total_Vendido DESC;
+
+
+SELECT TOP 1 
+    nombre AS Producto, 
+    stock
+FROM dbo.producto
+ORDER BY stock DESC;
+
+
+SELECT 
+    f.id_factura, 
+    f.fecha, 
+    CAST(c.nombre AS VARCHAR(100)) + ' ' + CAST(c.apellido AS VARCHAR(100)) AS Cliente, 
+    d.precio AS Total
+FROM dbo.factura f
+INNER JOIN dbo.cliente c ON f.id_cliente = c.id_cliente
+INNER JOIN dbo.detalle d ON f.id_detalle = d.id_detalle
+ORDER BY f.fecha ASC;
+
+SELECT 
+    id_cliente, 
+    CAST(nombre AS VARCHAR(100)) AS nombre, 
+    CAST(apellido AS VARCHAR(100)) AS apellido, 
+    CAST(email AS VARCHAR(100)) AS email
+FROM dbo.cliente
+ORDER BY CAST(nombre AS VARCHAR(100)) ASC;
+
+SELECT 
+    CAST(cat.nombre AS VARCHAR(100)) AS Categoria, 
+    CAST(p.nombre AS VARCHAR(100)) AS Producto, 
+    p.precio, 
+    p.stock
+FROM dbo.producto p
+INNER JOIN dbo.categoria cat ON p.id_categoria = cat.id_categoria
+WHERE CAST(cat.nombre AS VARCHAR(100)) IN ('Falda', 'Pantalón', 'Chamarra', 'Zapatos', 'Accesorios')
+ORDER BY CAST(cat.nombre AS VARCHAR(100)), CAST(p.nombre AS VARCHAR(100));
+
+  
+SELECT 
+    s.Nombre_Sucursal AS Sucursal, 
+    e.Nombre + ' ' + e.Apellido AS Encargado
+FROM dbo.Sucursales s
+INNER JOIN dbo.Empleados e ON s.Id_Encargado = e.Id_Empleado;
+
+
+
+SELECT 
+    e.Id_Empleado, 
+    e.Nombre, 
+    e.Apellido, 
+    e.Puesto, 
+    s.Nombre_Sucursal AS Sucursal
+FROM dbo.Empleados e
+INNER JOIN dbo.Sucursales s ON e.Id_Sucursal = s.Id_Sucursal
+WHERE s.Nombre_Sucursal LIKE '%Constitución%';
+
+
+SELECT 
+    id_cliente, 
+    CAST(nombre AS VARCHAR(100)) AS Nombre, 
+    CAST(apellido AS VARCHAR(100)) AS Apellido, 
+    fec_nac,
+    DATEDIFF(YEAR, fec_nac, GETDATE()) - 
+        CASE 
+            WHEN DATEADD(YEAR, DATEDIFF(YEAR, fec_nac, GETDATE()), fec_nac) > GETDATE() THEN 1 
+            ELSE 0 
+        END AS Edad
+FROM dbo.cliente
+WHERE DATEDIFF(YEAR, fec_nac, GETDATE()) - 
+        CASE 
+            WHEN DATEADD(YEAR, DATEDIFF(YEAR, fec_nac, GETDATE()), fec_nac) > GETDATE() THEN 1 
+            ELSE 0 
+        END > 30
+ORDER BY Edad DESC;
+
